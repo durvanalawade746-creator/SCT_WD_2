@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A cute, soft, modern pastel-themed calculator web app built with HTML, CSS, and Vanilla JavaScript. Features full keyboard accessibility, glassmorphic design, and smooth interactions.">
+    <title>Pastel Calc • Simple, Smart & Beautiful</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Animated Ambient Background Shapes -->
+    <div class="ambient-background" aria-hidden="true">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+        <div class="blob blob-5"></div>
+    </div>
+
+    <!-- Main Wrapper -->
+    <div class="app-wrapper">
+        
+        <!-- App Header -->
+        <header class="app-header">
+            <div class="brand-title">
+                <span class="sparkle-icon" aria-hidden="true">🌸</span>
+                <h1>Pastel Calc</h1>
+            </div>
+            <p class="brand-subtitle">Simple • Smart • Beautiful</p>
+        </header>
+
+        <!-- Calculator Outer Card -->
+        <div class="calculator-card">
+
+            <!-- Top Utility Bar inside Calculator -->
+            <div class="utility-bar">
+                <div class="utility-badges">
+                    <span class="mode-badge">Standard</span>
+                </div>
+                <div class="utility-actions">
+                    <!-- Audio Click Toggle -->
+                    <button type="button" id="soundToggleBtn" class="icon-btn" title="Toggle Sound Feedback" aria-label="Toggle Sound">
+                        <svg class="icon sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        </svg>
+                        <svg class="icon sound-off hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                            <path d="M9 9v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-1.34M11 5 6 9 2 9 2 15 6 15 11 19 11 5"></path>
+                        </svg>
+                    </button>
+
+                    <!-- History Drawer Toggle -->
+                    <button type="button" id="historyToggleBtn" class="icon-btn" title="Toggle Calculation History" aria-label="Toggle History">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- History Panel Drawer -->
+            <aside id="historyPanel" class="history-panel" aria-label="Calculation History">
+                <div class="history-header">
+                    <h3>Calculation History</h3>
+                    <button type="button" id="clearHistoryBtn" class="text-btn">Clear</button>
+                </div>
+                <ul id="historyList" class="history-list">
+                    <li class="history-empty">No history yet. Start calculating!</li>
+                </ul>
+            </aside>
+
+            <!-- Display Area -->
+            <div class="display-container">
+                <div id="previousExpression" class="previous-expression" aria-live="polite"></div>
+                <div id="currentInput" class="current-input" aria-live="assertive">0</div>
+            </div>
+
+            <!-- Keypad Buttons Grid -->
+            <div class="keypad-grid">
+                <!-- Row 1 -->
+                <button type="button" class="btn btn-clear" data-action="clear" id="btn-clear" title="Clear (Escape)">C</button>
+                <button type="button" class="btn btn-delete" data-action="delete" id="btn-delete" title="Backspace">
+                    <svg class="icon-del" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path>
+                        <line x1="18" y1="9" x2="12" y2="15"></line>
+                        <line x1="12" y1="9" x2="18" y2="15"></line>
+                    </svg>
+                </button>
+                <button type="button" class="btn btn-operator" data-action="percent" id="btn-percent" title="Percentage (%)">%</button>
+                <button type="button" class="btn btn-operator" data-action="operator" data-value="/" id="btn-divide" title="Divide (/)">÷</button>
+
+                <!-- Row 2 -->
+                <button type="button" class="btn btn-number" data-value="7" id="btn-7">7</button>
+                <button type="button" class="btn btn-number" data-value="8" id="btn-8">8</button>
+                <button type="button" class="btn btn-number" data-value="9" id="btn-9">9</button>
+                <button type="button" class="btn btn-operator" data-action="operator" data-value="*" id="btn-multiply" title="Multiply (*)">×</button>
+
+                <!-- Row 3 -->
+                <button type="button" class="btn btn-number" data-value="4" id="btn-4">4</button>
+                <button type="button" class="btn btn-number" data-value="5" id="btn-5">5</button>
+                <button type="button" class="btn btn-number" data-value="6" id="btn-6">6</button>
+                <button type="button" class="btn btn-operator" data-action="operator" data-value="-" id="btn-subtract" title="Subtract (-)">−</button>
+
+                <!-- Row 4 -->
+                <button type="button" class="btn btn-number" data-value="1" id="btn-1">1</button>
+                <button type="button" class="btn btn-number" data-value="2" id="btn-2">2</button>
+                <button type="button" class="btn btn-number" data-value="3" id="btn-3">3</button>
+                <button type="button" class="btn btn-operator" data-action="operator" data-value="+" id="btn-add" title="Add (+)">+</button>
+
+                <!-- Row 5 -->
+                <button type="button" class="btn btn-secondary" data-action="negate" id="btn-negate" title="Toggle Plus/Minus (±)">±</button>
+                <button type="button" class="btn btn-number" data-value="0" id="btn-0">0</button>
+                <button type="button" class="btn btn-number" data-value="." id="btn-decimal" title="Decimal point (.)">.</button>
+                <button type="button" class="btn btn-equals" data-action="equals" id="btn-equals" title="Calculate (Enter or =)">=</button>
+            </div>
+
+            <!-- Visual Keyboard Shortcuts Helper Footer -->
+            <div class="keyboard-hints">
+                <span><kbd>Esc</kbd> Clear</span>
+                <span><kbd>⌫</kbd> Del</span>
+                <span><kbd>Enter</kbd> =</span>
+            </div>
+        </div>
+
+        <!-- Footer Footer -->
+        <footer class="app-footer">
+            <p>Designed with 💖 Pastel Elegance</p>
+        </footer>
+    </div>
+
+    <!-- Script File -->
+    <script src="script.js"></script>
+</body>
+</html>
